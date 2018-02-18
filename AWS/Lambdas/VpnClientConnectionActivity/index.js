@@ -37,7 +37,7 @@ exports.handler = (event, context, callback) => {
             callback(err);
             return;
         }
-        console.info('Update succesful for ' + event.mine);
+        console.info('Update successful for ' + event.mine);
     });
 
     const sns = new AWS.SNS();
@@ -48,8 +48,7 @@ exports.handler = (event, context, callback) => {
 
     sns.publish({
         Message: JSON.stringify({
-            'default': event.mine,
-            'mine': event.mine,
+            'default': event.updateValue,
             'connected': event.updateValue
         }),
         TopicArn: topicArn,
