@@ -5,9 +5,10 @@ exports.handler = (event, context, callback) => {
     const slackUrl = process.env.slackUrl;
     const notifyConnects = process.env.notifyConnects === 'true';
     const notifyDisconnects = process.env.notifyDisconnects === 'true';
+    const eventValue = JSON.parse(event.Records[0].Sns.Message);
     const callbackFunction = function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            console.log('Slack notification successful. Connection value: ' + event.connected);
+            console.log('Slack notification successful. Connection value: ' + eventValue);
             callback(null, 'Done');
         } else if (error) {
             console.error(error);
@@ -15,7 +16,7 @@ exports.handler = (event, context, callback) => {
         }
     };
 
-    if (notifyConnects && event.connected) {
+    if (notifyConnects && eventValue) {
         request(
             {
                 method: 'POST',
@@ -27,7 +28,7 @@ exports.handler = (event, context, callback) => {
         return;
     }
 
-    if (notifyDisconnects && !event.connected) {
+    if (notifyDisconnects && !eventValue) {
         request(
             {
                 method: 'POST',

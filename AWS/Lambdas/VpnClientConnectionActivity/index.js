@@ -48,8 +48,7 @@ exports.handler = (event, context, callback) => {
 
     sns.publish({
         Message: JSON.stringify({
-            'default': event.updateValue,
-            'connected': event.updateValue
+            'default': event.updateValue
         }),
         TopicArn: topicArn,
         MessageStructure: 'json'
